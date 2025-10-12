@@ -1,0 +1,1 @@
+python -m odoo_module_migrate -d /path/to/module -i 10.0 -t 18 -nc
