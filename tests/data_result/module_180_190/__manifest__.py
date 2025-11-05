@@ -2,8 +2,8 @@
 
 {
     "name": "Module name",
-    "version": "16.0.1.0.0",
-    "installable": False,
+    "version": "19.0.1.0.0",
+    "installable": True,
     'license': 'AGPL-3',
     'depends': [
         'base',
@@ -11,7 +11,4 @@
     'data': [
         'views/res_partner.xml',
     ],
-    "assets": {
-        "web.assets_common",
-    }
 }

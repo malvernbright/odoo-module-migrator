@@ -143,10 +143,36 @@ class TestMigration(unittest.TestCase):
             "Differences found in the following files\n- %s"
             % ("\n- ".join(diff_files)),
         )
+        log_content = _read_content(str(self._working_path / "test_log.log"))
+        required_logs = [
+            (
+                "WARNING",
+                "[17].*'web.assets_common'.*This bundle has been removed.*",
+            ),
+        ]
+        for required_log in required_logs:
+            level, message = required_log
+            pattern = "{0}.*{1}".format(level, message)
+            self.assertNotEqual(
+                len(re.findall(pattern, log_content)),
+                0,
+                "%s not found in the log" % pattern,
+            )
 
     def test_migration_170_180(self):
         self._migrate_module("module_170", "module_170_180", "17.0", "18.0")
         comparison = self._get_comparison("module_170", "module_170_180")
+        diff_files = self._get_diff_files(comparison, "./")
+        self.assertEqual(
+            len(diff_files),
+            0,
+            "Differences found in the following files\n- %s"
+            % ("\n- ".join(diff_files)),
+        )
+
+    def test_migration_180_190(self):
+        self._migrate_module("module_180", "module_180_190", "18.0", "19.0")
+        comparison = self._get_comparison("module_180", "module_180_190")
         diff_files = self._get_diff_files(comparison, "./")
         self.assertEqual(
             len(diff_files),
